@@ -12,6 +12,7 @@ from tkinter import messagebox  # Adicionado para usar messagebox
 def enviar_mensagens(arquivo_excel, mensagem_padrao):
     webbrowser.open('https://web.whatsapp.com/')
     sleep(15)
+    pyautogui.hotkey('ctrl', 'w')
 
     workbook = openpyxl.load_workbook(arquivo_excel)
     pagina_clientes = workbook['Sheet1']
@@ -22,33 +23,31 @@ def enviar_mensagens(arquivo_excel, mensagem_padrao):
         if contador_mensagens_enviadas >= 70:  # Verifica se atingiu o limite de 70 mensagens
             break
 
-        if all(cell.value is not None for cell in linha):
-            nome = linha[0].value
+        if linha[1].value is not None:
             telefone = int(linha[1].value)
-            vencimento = linha[2].value
 
             print(telefone)
 
-            mensagem_personalizada = f'Olá {nome} seu boleto vence no dia {vencimento}. Favor pagar no link https://www.link_do_pagamento.com\n{mensagem_padrao}'
+            mensagem_personalizada = f'{mensagem_padrao}'
 
             try:
-                link_mensagem_whatsapp = f'https://web.whatsapp.com/send?phone={telefone}&text={quote(mensagem_personalizada)}'
+                link_mensagem_whatsapp = f'https://web.whatsapp.com/send?phone=55{telefone}&text={quote(mensagem_personalizada)}'
                 print(link_mensagem_whatsapp)
                 webbrowser.open(link_mensagem_whatsapp)
                 sleep(15)
-                pyautogui.moveTo(900, 965)
+                pyautogui.moveTo(900, 970)
                 sleep(5)
                 pyautogui.click()
                 sleep(5)
                 pyautogui.press('enter')
                 sleep(2)
                 pyautogui.hotkey('ctrl', 'w')
-                contador_mensagens_enviadas += 1 # Contador de mensagens enviadas
                 sleep(40)
+                contador_mensagens_enviadas += 1 # Contador de mensagens enviadas
             except:
-                print(f'Não foi possível enviar mensagem para {nome}')
+                print(f'Não foi possível enviar mensagem para {telefone}')
                 with open('erros.csv', 'a', newline='', encoding='utf-8') as arquivo:
-                    arquivo.write(f'{nome},{telefone}{os.linesep}')
+                    arquivo.write(f'{telefone}{os.linesep}')
             else:
                 continue
 
