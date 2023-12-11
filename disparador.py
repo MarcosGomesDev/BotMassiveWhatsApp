@@ -35,10 +35,6 @@ def enviar_mensagens(arquivo_excel, mensagem_padrao):
                 print(link_mensagem_whatsapp)
                 webbrowser.open(link_mensagem_whatsapp)
                 sleep(20)
-                pyautogui.moveTo(900, 970)
-                sleep(5)
-                pyautogui.click()
-                sleep(5)
                 pyautogui.press('enter')
                 sleep(2)
                 pyautogui.hotkey('ctrl', 'w')
@@ -76,7 +72,6 @@ def remover_arquivo():
 
 root = tk.Tk()
 root.title("Dispado de Mensagens Automático")
-root.iconbitmap("logo.ico")
 root.geometry("800x500+150+60")
 
 label_arquivo = tk.Label(root, text="Selecione o arquivo Excel:", font=("Arial", 16))
